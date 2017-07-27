@@ -227,33 +227,33 @@ public class TrackActivity extends TabActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
 		switch (itemId) {
-		case android.R.id.home:
-			int backStackEntriesCount = getSupportFragmentManager().getBackStackEntryCount();
-			if (backStackEntriesCount > 0) {
-				FragmentManager.BackStackEntry backStackEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
-				if (backStackEntry.getName().equals(SplitSegmentFragment.TAG)) {
-					for (WeakReference<Fragment> f : fragList) {
-						Fragment frag = f.get();
-						if (frag instanceof TrackSegmentFragment) {
-							((TrackSegmentFragment) frag).updateSplitView();
+			case android.R.id.home:
+				int backStackEntriesCount = getSupportFragmentManager().getBackStackEntryCount();
+				if (backStackEntriesCount > 0) {
+					FragmentManager.BackStackEntry backStackEntry = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1);
+					if (backStackEntry.getName().equals(SplitSegmentFragment.TAG)) {
+						for (WeakReference<Fragment> f : fragList) {
+							Fragment frag = f.get();
+							if (frag instanceof TrackSegmentFragment) {
+								((TrackSegmentFragment) frag).updateSplitView();
+							}
 						}
+						getSupportFragmentManager().popBackStack();
+						if (isHavingWayPoints() || isHavingRoutePoints()) {
+							getSlidingTabLayout().setVisibility(View.VISIBLE);
+						}
+						return true;
 					}
-					getSupportFragmentManager().popBackStack();
-					if (isHavingWayPoints() || isHavingRoutePoints()) {
-						getSlidingTabLayout().setVisibility(View.VISIBLE);
-					}
-					return true;
 				}
-			}
-			if (getIntent().hasExtra(MapActivity.INTENT_KEY_PARENT_MAP_ACTIVITY)) {
-				OsmAndAppCustomization appCustomization = getMyApplication().getAppCustomization();
-				final Intent favorites = new Intent(this, appCustomization.getFavoritesActivity());
-				getMyApplication().getSettings().FAVORITES_TAB.set(FavoritesActivity.GPX_TAB);
-				favorites.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-				startActivity(favorites);
-			}
-			finish();
-			return true;
+				if (getIntent().hasExtra(MapActivity.INTENT_KEY_PARENT_MAP_ACTIVITY)) {
+					OsmAndAppCustomization appCustomization = getMyApplication().getAppCustomization();
+					final Intent favorites = new Intent(this, appCustomization.getFavoritesActivity());
+					getMyApplication().getSettings().FAVORITES_TAB.set(FavoritesActivity.GPX_TAB);
+					favorites.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+					startActivity(favorites);
+				}
+				finish();
+				return true;
 
 		}
 		return false;
@@ -281,11 +281,11 @@ public class TrackActivity extends TabActivity {
 		super.onBackPressed();
 	}
 
-	boolean isHavingWayPoints(){
+	boolean isHavingWayPoints() {
 		return getGpx() != null && getGpx().hasWptPt();
 	}
 
-	boolean isHavingRoutePoints(){
+	boolean isHavingRoutePoints() {
 		return getGpx() != null && getGpx().hasRtePt();
 	}
 
@@ -297,4 +297,3 @@ public class TrackActivity extends TabActivity {
 		return gpxDataItem;
 	}
 }
-
