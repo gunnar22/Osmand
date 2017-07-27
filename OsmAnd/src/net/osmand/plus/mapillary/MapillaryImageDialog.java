@@ -555,11 +555,14 @@ public class MapillaryImageDialog extends ContextMenuCardDialog {
 				if (progressBar != null) {
 					progressBar.setVisibility(View.GONE);
 				}
-				if (bitmap != null && imageView != null) {
-					imageView.setImageDrawable(new BitmapDrawable(getMapActivity().getResources(), bitmap));
-				} else {
-					staticImageView.setVisibility(View.GONE);
-					noInternetView.setVisibility(View.VISIBLE);
+				if (imageView != null) {
+					if (bitmap != null) {
+						imageView.setImageDrawable(new BitmapDrawable(getMapActivity().getResources(), bitmap));
+					} else {
+						imageView.setImageDrawable(null);
+						staticImageView.setVisibility(View.GONE);
+						noInternetView.setVisibility(View.VISIBLE);
+					}
 				}
 			}
 		}
